@@ -9,16 +9,19 @@ CardioShield is a web-based application that uses machine learning to predict th
 Below are some screenshots demonstrating the main features and user interface of CardioShield:
 
 ### 1. User Registration Page
-![User Registration](screenshots/register.png)
+![User Registration]
+<img width="1920" height="1080" alt="Screenshot 2025-07-18 092732" src="https://github.com/user-attachments/assets/94b1ae92-cf0c-4ee3-975f-08f5ba7b66e1" />
 
 ### 2. Heart Disease Prediction Form
-![Prediction Form](screenshots/prediction_form.png)
+![Prediction Form]
+<img width="879" height="879" alt="Screenshot 2025-07-18 093011" src="https://github.com/user-attachments/assets/53b5a028-a73c-4dec-8377-2cc0ec6ea0c9" />
 
 ### 3. Prediction Results and Model Confidence
-![Prediction Results](screenshots/prediction_results.png)
+![Prediction Results]
+<img width="1171" height="881" alt="Screenshot 2025-07-18 093058" src="https://github.com/user-attachments/assets/7127bb2d-fd26-4094-bcfb-c114b01486c6" />
 
 ### 4. Detailed Recommendations
-![Recommendations](screenshots/recommendations.png)
+![Recommendations]<img width="1169" height="850" alt="Screenshot 2025-07-18 093113" src="https://github.com/user-attachments/assets/e2b41d64-c761-4151-90f6-c992789427e4" />
 
 ---
 
