@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction - Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --medical-blue: #1976d2;
+            --medical-light-blue: #4fc3f7;
+            --medical-teal: #26a69a;
+            --medical-light-blue-bg: #e3f2fd;
+        }
+        body {
+            background-color: var(--medical-light-blue-bg);
+            background-image: url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+        }
+        .register-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            border-top: 4px solid var(--medical-teal);
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo h1 {
+            color: var(--medical-blue);
+            font-size: 24px;
+        }
+        .btn-primary {
+            background-color: var(--medical-blue);
+            border-color: var(--medical-blue);
+        }
+        .btn-primary:hover {
+            background-color: #1565c0;
+            border-color: #1565c0;
+        }
+        .form-control:focus {
+            border-color: var(--medical-light-blue);
+            box-shadow: 0 0 0 0.25rem rgba(79, 195, 247, 0.25);
+        }
+        .input-group-text {
+            background-color: var(--medical-light-blue-bg);
+            color: var(--medical-blue);
+            border-color: #ced4da;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="register-container">
+            <div class="logo">
+                <i class="bi bi-heart-pulse text-primary" style="font-size: 2.5rem;"></i>
+                <h1>Heart Disease Prediction</h1>
+                <p class="text-muted">Create a new account</p>
+            </div>
+            
+            <form id="registerForm" class="needs-validation" novalidate>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-person"></i></span>
+                            <input type="text" class="form-control" id="firstName" required>
+                            <div class="invalid-feedback">
+                                Please provide your first name.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-person"></i></span>
+                            <input type="text" class="form-control" id="lastName" required>
+                            <div class="invalid-feedback">
+                                Please provide your last name.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                        <input type="email" class="form-control" id="email" required>
+                        <div class="invalid-feedback">
+                            Please provide a valid email address.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                        <input type="password" class="form-control" id="password" required minlength="8">
+                        <div class="invalid-feedback">
+                            Password must be at least 8 characters long.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                        <input type="password" class="form-control" id="confirmPassword" required>
+                        <div class="invalid-feedback">
+                            Passwords do not match.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="terms" required>
+                    <label class="form-check-label" for="terms">I agree to the terms and conditions</label>
+                    <div class="invalid-feedback">
+                        You must agree before submitting.
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-person-plus me-2"></i>Register
+                    </button>
+                </div>
+                
+                <div class="mt-3 text-center">
+                    <a href="login.html" class="text-decoration-none" style="color: var(--medical-blue);">
+                        <i class="bi bi-box-arrow-in-right me-1"></i>Already have an account? Login
+                    </a>
+                </div>
+            </form>
+            
+            <div id="errorMessage" class="alert alert-danger mt-3 d-none"></div>
+        </div>
+    </div>
+
+    <script>
+        // Form validation
+        (function() {
+            'use strict';
+            
+            const forms = document.querySelectorAll('.needs-validation');
+            
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    
+                    // Check if passwords match
+                    const password = document.getElementById('password');
+                    const confirmPassword = document.getElementById('confirmPassword');
+                    
+                    if (password.value !== confirmPassword.value) {
+                        confirmPassword.setCustomValidity('Passwords do not match');
+                        event.preventDefault();
+                        event.stopPropagation();
+                    } else {
+                        confirmPassword.setCustomValidity('');
+                    }
+                    
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+        
+        // Handle form submission
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!e.target.checkValidity()) {
+                return;
+            }
+            
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Store user data in localStorage (for demonstration purposes)
+            try {
+                // Create a simple user object
+                const userData = {
+                    firstName,
+                    lastName,
+                    email,
+                    password, // Note: In a real app, NEVER store passwords in localStorage
+                    registeredAt: new Date().toISOString()
+                };
+                
+                // Store in localStorage
+                localStorage.setItem('tempUserData', JSON.stringify(userData));
+                
+                // Show success message
+                const successDiv = document.createElement('div');
+                successDiv.className = 'alert alert-success mt-3';
+                successDiv.textContent = 'Registration successful! Redirecting to login...';
+                
+                // Find error message div and replace it or insert after form
+                const errorDiv = document.getElementById('errorMessage');
+                errorDiv.className = 'alert alert-success mt-3';
+                errorDiv.textContent = 'Registration successful! Redirecting to login...';
+                errorDiv.classList.remove('d-none');
+                
+                // Redirect to login page after a brief delay
+                setTimeout(() => {
+                    window.location.href = 'login.html?registered=true';
+                }, 1500);
+                
+            } catch (error) {
+                const errorDiv = document.getElementById('errorMessage');
+                errorDiv.textContent = 'An error occurred during registration. Please try again.';
+                errorDiv.classList.remove('d-none');
+            }
+        });
+    </script>
+</body>
+</html> 

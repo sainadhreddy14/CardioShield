@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --medical-blue: #1976d2;
+            --medical-light-blue: #4fc3f7;
+            --medical-teal: #26a69a;
+            --medical-light-blue-bg: #e3f2fd;
+        }
+        body {
+            background-color: var(--medical-light-blue-bg);
+            background-image: linear-gradient(135deg, rgba(227, 242, 253, 0.8) 0%, rgba(255, 255, 255, 0.9) 100%);
+            min-height: 100vh;
+        }
+        .prediction-result {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .model-card {
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--medical-teal);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .model-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .card {
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-radius: 10px;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--medical-light-blue);
+            box-shadow: 0 0 0 0.25rem rgba(79, 195, 247, 0.25);
+        }
+        .btn-primary {
+            background-color: var(--medical-blue);
+            border-color: var(--medical-blue);
+        }
+        .btn-primary:hover {
+            background-color: #1565c0;
+            border-color: #1565c0;
+        }
+        .navbar {
+            background-color: var(--medical-blue);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: var(--medical-blue);
+        }
+        .form-label {
+            font-weight: 500;
+            color: #37474f;
+        }
+        .input-group-text {
+            background-color: var(--medical-light-blue-bg);
+            color: var(--medical-blue);
+            border-color: #ced4da;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-heart-pulse me-2"></i>Heart Disease Prediction
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Prediction</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">History</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="logoutBtn">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        <h1 class="text-center mb-4"><i class="bi bi-clipboard2-pulse me-2"></i>Heart Disease Risk Prediction</h1>
+        
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="predictionForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="age" class="form-label">Age</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
+                                        <input type="number" class="form-control" id="age" name="age" required min="0" max="120">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="sex" class="form-label">Sex</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-gender-ambiguous"></i></span>
+                                        <select class="form-select" id="sex" name="sex" required>
+                                            <option value="">Select gender</option>
+                                            <option value="1">Male</option>
+                                            <option value="0">Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="cp" class="form-label">Chest Pain Type</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-heart"></i></span>
+                                        <select class="form-select" id="cp" name="cp" required>
+                                            <option value="">Select type</option>
+                                            <option value="0">Typical angina</option>
+                                            <option value="1">Atypical angina</option>
+                                            <option value="2">Non-anginal pain</option>
+                                            <option value="3">Asymptomatic</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="trestbps" class="form-label">Resting Blood Pressure (mm Hg)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-activity"></i></span>
+                                        <input type="number" class="form-control" id="trestbps" name="trestbps" required min="90" max="200">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="chol" class="form-label">Serum Cholesterol (mg/dl)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-droplet"></i></span>
+                                        <input type="number" class="form-control" id="chol" name="chol" required min="100" max="600">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="fbs" class="form-label">Fasting Blood Sugar > 120 mg/dl</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-clipboard-data"></i></span>
+                                        <select class="form-select" id="fbs" name="fbs" required>
+                                            <option value="">Select option</option>
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="restecg" class="form-label">Resting ECG Results</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-graph-up"></i></span>
+                                        <select class="form-select" id="restecg" name="restecg" required>
+                                            <option value="">Select result</option>
+                                            <option value="0">Normal</option>
+                                            <option value="1">ST-T wave abnormality</option>
+                                            <option value="2">Left ventricular hypertrophy</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="thalach" class="form-label">Maximum Heart Rate</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-heart-pulse"></i></span>
+                                        <input type="number" class="form-control" id="thalach" name="thalach" required min="60" max="202">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="exang" class="form-label">Exercise Induced Angina</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-person-walking"></i></span>
+                                        <select class="form-select" id="exang" name="exang" required>
+                                            <option value="">Select option</option>
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="oldpeak" class="form-label">ST Depression</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-arrow-down"></i></span>
+                                        <input type="number" class="form-control" id="oldpeak" name="oldpeak" required min="0" max="6.2" step="0.1">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="slope" class="form-label">Slope of Peak Exercise ST Segment</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-arrow-up-right"></i></span>
+                                        <select class="form-select" id="slope" name="slope" required>
+                                            <option value="">Select type</option>
+                                            <option value="0">Upsloping</option>
+                                            <option value="1">Flat</option>
+                                            <option value="2">Downsloping</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="ca" class="form-label">Number of Major Vessels</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-diagram-3"></i></span>
+                                        <select class="form-select" id="ca" name="ca" required>
+                                            <option value="">Select number</option>
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="thal" class="form-label">Thalassemia</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-radioactive"></i></span>
+                                    <select class="form-select" id="thal" name="thal" required>
+                                        <option value="">Select type</option>
+                                        <option value="1">Normal</option>
+                                        <option value="2">Fixed defect</option>
+                                        <option value="3">Reversible defect</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary px-4 py-2">
+                                    <i class="bi bi-calculator me-2"></i>Predict Risk
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div id="results" class="prediction-result">
+                    <h3 class="text-center mb-4 text-primary">
+                        <i class="bi bi-clipboard2-pulse me-2"></i>Prediction Results
+                    </h3>
+                    
+                    <div id="modelPredictions">
+                        <!-- Individual model predictions will be inserted here -->
+                    </div>
+
+                    <div class="card mt-4">
+                        <div class="card-header bg-primary text-white">
+                            <h4 class="card-title mb-0">
+                                <i class="bi bi-pie-chart me-2"></i>Final Analysis
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div id="finalAnalysis"></div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-4">
+                        <div class="card-header bg-info text-white">
+                            <h4 class="card-title mb-0">
+                                <i class="bi bi-info-circle me-2"></i>Interpretation
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div id="interpretation"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-5 py-3 text-center text-muted">
+        <div class="container">
+            <p>&copy; 2023 Heart Disease Prediction System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            
+            try {
+                // Create mock prediction results instead of API call
+                const mockResult = generateMockPrediction(data);
+                displayResults(mockResult);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while making the prediction.');
+            }
+        });
+
+        function generateMockPrediction(data) {
+            // Calculate a mock risk score based on some of the input data
+            const age = parseInt(data.age);
+            const chol = parseInt(data.chol);
+            const thalach = parseInt(data.thalach);
+            const cp = parseInt(data.cp);
+            
+            // Higher age and cholesterol increase risk, higher max heart rate decreases it
+            let baseRisk = 0.1 + (age / 100) + (chol / 1000) - (thalach / 500);
+            if (cp > 0) baseRisk += 0.1; // Chest pain increases risk
+            
+            // Constrain to 0-1 range
+            baseRisk = Math.max(0, Math.min(1, baseRisk));
+            
+            // Generate mock results for different models
+            return {
+                models: [
+                    {
+                        name: "Logistic Regression",
+                        prediction: baseRisk > 0.5 ? 1 : 0,
+                        probability: baseRisk,
+                        accuracy: 0.82
+                    },
+                    {
+                        name: "Random Forest",
+                        prediction: baseRisk > 0.45 ? 1 : 0,
+                        probability: baseRisk + (Math.random() * 0.1 - 0.05),
+                        accuracy: 0.88
+                    },
+                    {
+                        name: "SVM",
+                        prediction: baseRisk > 0.52 ? 1 : 0,
+                        probability: baseRisk + (Math.random() * 0.1 - 0.05),
+                        accuracy: 0.85
+                    },
+                    {
+                        name: "Neural Network",
+                        prediction: baseRisk > 0.48 ? 1 : 0,
+                        probability: baseRisk + (Math.random() * 0.1 - 0.05),
+                        accuracy: 0.87
+                    }
+                ],
+                ensemble: {
+                    prediction: baseRisk > 0.5 ? 1 : 0,
+                    probability: baseRisk,
+                    confidence: 0.85 + (Math.random() * 0.1)
+                },
+                features: [
+                    { name: "Age", importance: 0.18 },
+                    { name: "Sex", importance: 0.14 },
+                    { name: "Chest Pain Type", importance: 0.22 },
+                    { name: "Cholesterol", importance: 0.16 },
+                    { name: "Max Heart Rate", importance: 0.19 }
+                ]
+            };
+        }
+
+        function displayResults(result) {
+            const resultsDiv = document.getElementById('results');
+            const modelPredictions = document.getElementById('modelPredictions');
+            const finalAnalysis = document.getElementById('finalAnalysis');
+            const interpretation = document.getElementById('interpretation');
+            
+            // Clear previous content
+            modelPredictions.innerHTML = '';
+            finalAnalysis.innerHTML = '';
+            interpretation.innerHTML = '';
+            
+            // Display individual model predictions
+            result.models.forEach(model => {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'card model-card mb-3';
+                
+                const resultClass = model.prediction === 1 ? 'text-danger' : 'text-success';
+                const resultText = model.prediction === 1 ? 'Positive' : 'Negative';
+                const probability = (model.probability * 100).toFixed(1);
+                
+                cardDiv.innerHTML = `
+                    <div class="card-body">
+                        <h5 class="card-title">${model.name}</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="mb-1">Prediction: <span class="${resultClass} fw-bold">${resultText}</span></p>
+                                <p class="mb-1">Probability: ${probability}%</p>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar ${model.prediction === 1 ? 'bg-danger' : 'bg-success'}" 
+                                        role="progressbar" style="width: ${probability}%;" 
+                                        aria-valuenow="${probability}" aria-valuemin="0" aria-valuemax="100">
+                                        ${probability}%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                modelPredictions.appendChild(cardDiv);
+            });
+            
+            // Final Analysis
+            const ensemblePrediction = result.ensemble.prediction === 1 ? 
+                '<span class="text-danger fw-bold">Positive (High Risk)</span>' : 
+                '<span class="text-success fw-bold">Negative (Low Risk)</span>';
+            
+            finalAnalysis.innerHTML = `
+                <p>Based on the ensemble of models, the final prediction is: ${ensemblePrediction}</p>
+                <p>Overall confidence: ${(result.ensemble.confidence * 100).toFixed(1)}%</p>
+                <div class="progress mt-2 mb-3" style="height: 25px;">
+                    <div class="progress-bar ${result.ensemble.prediction === 1 ? 'bg-danger' : 'bg-success'}" 
+                        role="progressbar" 
+                        style="width: ${(result.ensemble.probability * 100).toFixed(1)}%;" 
+                        aria-valuenow="${(result.ensemble.probability * 100).toFixed(1)}" 
+                        aria-valuemin="0" 
+                        aria-valuemax="100">
+                        ${(result.ensemble.probability * 100).toFixed(1)}%
+                    </div>
+                </div>
+                <h5 class="mt-4">Feature Importance</h5>
+                <div class="mt-3">
+                    ${result.features.map(feature => `
+                        <div class="mb-2">
+                            <div class="d-flex justify-content-between">
+                                <span>${feature.name}</span>
+                                <span>${(feature.importance * 100).toFixed(1)}%</span>
+                            </div>
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-info" 
+                                    role="progressbar" 
+                                    style="width: ${(feature.importance * 100).toFixed(1)}%;" 
+                                    aria-valuenow="${(feature.importance * 100).toFixed(1)}" 
+                                    aria-valuemin="0" 
+                                    aria-valuemax="100">
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            // Interpretation
+            const riskLevel = result.ensemble.prediction === 1 ? 'high' : 'low';
+            const riskClass = result.ensemble.prediction === 1 ? 'text-danger' : 'text-success';
+            
+            interpretation.innerHTML = `
+                <p>Based on the information provided, you are at <span class="${riskClass} fw-bold">${riskLevel} risk</span> of heart disease.</p>
+                <p>Key factors contributing to this prediction:</p>
+                <ul>
+                    ${result.features.slice(0, 3).map(feature => 
+                        `<li><strong>${feature.name}</strong>: Contributes ${(feature.importance * 100).toFixed(1)}% to the prediction</li>`
+                    ).join('')}
+                </ul>
+                <p class="mt-3 mb-0"><strong>Recommendations:</strong></p>
+                <ul>
+                    ${result.ensemble.prediction === 1 ? `
+                        <li>Consider consulting with a healthcare provider for a comprehensive evaluation</li>
+                        <li>Monitor your blood pressure and cholesterol levels regularly</li>
+                        <li>Maintain a heart-healthy diet and regular exercise routine</li>
+                        <li>Avoid smoking and limit alcohol consumption</li>
+                    ` : `
+                        <li>Continue maintaining a healthy lifestyle</li>
+                        <li>Regular check-ups with your healthcare provider</li>
+                        <li>Stay physically active and maintain a balanced diet</li>
+                    `}
+                </ul>
+                <div class="alert alert-info mt-3">
+                    <i class="bi bi-info-circle me-2"></i>
+                    This is a preliminary assessment and should not replace professional medical advice.
+                </div>
+            `;
+            
+            // Show results section
+            resultsDiv.style.display = 'block';
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Add a logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('token');
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html> 

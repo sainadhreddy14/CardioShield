@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --medical-blue: #1976d2;
+            --medical-light-blue: #4fc3f7;
+            --medical-teal: #26a69a;
+            --medical-light-blue-bg: #e3f2fd;
+        }
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1530497610245-94d3c16cda28?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            margin-bottom: 50px;
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--medical-blue);
+            margin-bottom: 1rem;
+        }
+        .feature-card {
+            height: 100%;
+            transition: transform 0.3s;
+            border-top: 3px solid var(--medical-teal);
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .cta-section {
+            background-color: var(--medical-light-blue-bg);
+            padding: 80px 0;
+            margin-top: 50px;
+        }
+        .btn-primary {
+            background-color: var(--medical-blue);
+            border-color: var(--medical-blue);
+        }
+        .btn-primary:hover {
+            background-color: #1565c0;
+            border-color: #1565c0;
+        }
+        .navbar {
+            background-color: var(--medical-blue) !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="bi bi-heart-pulse-fill me-2"></i>Heart Disease Prediction</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-light ms-2" href="login.html">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-4 mb-4">Predict Heart Disease Risk with AI</h1>
+            <p class="lead mb-5">Our advanced machine learning algorithms analyze your health data to predict your risk of heart disease with high accuracy.</p>
+            <div>
+                <a href="register.html" class="btn btn-primary btn-lg me-3">Get Started</a>
+                <a href="#features" class="btn btn-outline-light btn-lg">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Key Features</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center">
+                            <div class="feature-icon">
+                                <i class="bi bi-activity"></i>
+                            </div>
+                            <h5 class="card-title">Multiple ML Algorithms</h5>
+                            <p class="card-text">Our system uses multiple machine learning algorithms including Logistic Regression, SVM, Decision Trees, Random Forest, and KNN for comprehensive analysis.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center">
+                            <div class="feature-icon">
+                                <i class="bi bi-shield-lock"></i>
+                            </div>
+                            <h5 class="card-title">Secure Data Handling</h5>
+                            <p class="card-text">Your health data is encrypted and stored securely. We follow strict privacy guidelines to protect your personal information.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center">
+                            <div class="feature-icon">
+                                <i class="bi bi-clipboard2-pulse"></i>
+                            </div>
+                            <h5 class="card-title">Detailed Reports</h5>
+                            <p class="card-text">Get comprehensive reports with prediction results, confidence scores, and feature importance analysis to understand your risk factors.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-5" style="background-color: var(--medical-light-blue-bg);">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="mb-4">About Our System</h2>
+                    <p class="lead">Our heart disease prediction system uses state-of-the-art machine learning techniques to analyze various health parameters and predict the risk of heart disease.</p>
+                    <p>The system takes into account multiple factors including age, gender, blood pressure, cholesterol levels, and other medical indicators to provide an accurate risk assessment.</p>
+                    <p>This tool is designed to help individuals and healthcare providers make informed decisions about heart health management.</p>
+                </div>
+                <div class="col-lg-6">
+                    <img src="https://images.unsplash.com/photo-1581595219315-a187dd40c322?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="img-fluid rounded shadow" alt="Heart Health">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section text-center">
+        <div class="container">
+            <h2 class="mb-4">Ready to Check Your Heart Disease Risk?</h2>
+            <p class="lead mb-4">Create an account now and get started with our prediction system.</p>
+            <a href="register.html" class="btn btn-primary btn-lg">Sign Up Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="bi bi-heart-pulse me-2"></i>Heart Disease Prediction System</h5>
+                    <p>Using advanced AI to predict heart disease risk.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Home</a></li>
+                        <li><a href="#features" class="text-white">Features</a></li>
+                        <li><a href="#about" class="text-white">About</a></li>
+                        <li><a href="login.html" class="text-white">Login</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Contact</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-envelope"></i> info@heartprediction.com</li>
+                        <li><i class="bi bi-telephone"></i> +1 (555) 123-4567</li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center">
+                <p>&copy; 2023 Heart Disease Prediction System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
