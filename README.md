@@ -14,6 +14,7 @@ Below are some screenshots demonstrating the main features and user interface of
 
 ### 2. Heart Disease Prediction Form
 ![Prediction Form]
+
 <img width="879" height="879" alt="Screenshot 2025-07-18 093011" src="https://github.com/user-attachments/assets/53b5a028-a73c-4dec-8377-2cc0ec6ea0c9" />
 
 ### 3. Prediction Results and Model Confidence
